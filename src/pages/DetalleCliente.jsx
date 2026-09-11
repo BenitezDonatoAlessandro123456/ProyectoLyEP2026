@@ -1,7 +1,9 @@
 import '../css/detallecliente.css'
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
- 
+import clientesService from "../services/clientesService";
+
+
 const DetalleCliente = () => {
  const { id } = useParams();
   const navigate = useNavigate();
@@ -9,11 +11,26 @@ const DetalleCliente = () => {
 
   const [cliente, setCliente] = useState(null);
   const [mensaje, setMensaje] = useState("");
+  const [error, setError] = useState("");
+  const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    fetch(`https://fakestoreapi.com/users/${id}`)
-      .then((res) => res.json())
-      .then((data) => setCliente(data));
+    const obtenerCliente = async () => {
+      setCargando(true);
+      setError("");
+
+      try {
+        const datos = await clientesService.getCliente(id);
+        setCliente(datos);
+      } catch (fallo) {
+        setCliente(null);
+        setError(fallo.message);
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    obtenerCliente();
   }, [id]);
 
   const eliminarCliente = async () => {
@@ -36,8 +53,12 @@ const DetalleCliente = () => {
       setMensaje("Error al eliminar cliente");
     }
   };
-  if (!cliente) {
+  if (cargando) {
     return <h2>Cargando cliente...</h2>;
+  }
+
+  if (!cliente) {
+    return <h2>{error || "No se encontró el cliente."}</h2>;
   }
 
   return (
