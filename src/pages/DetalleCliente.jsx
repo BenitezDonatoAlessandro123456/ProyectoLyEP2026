@@ -34,23 +34,19 @@ const DetalleCliente = () => {
   }, [id]);
 
   const eliminarCliente = async () => {
+    setMensaje("");
+    setError("");
+
     try {
-      const respuesta = await fetch(
-        `https://fakestoreapi.com/users/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      await clientesService.eliminarCliente(id);
 
-      if (respuesta.ok) {
-        setMensaje("Cliente eliminado correctamente");
+      setMensaje("Cliente eliminado correctamente");
 
-        setTimeout(() => {
-          navigate("/clientes");
-        }, 2000);
-      }
-    } catch (error) {
-      setMensaje("Error al eliminar cliente");
+      setTimeout(() => {
+        navigate("/clientes");
+      }, 2000);
+    } catch (fallo) {
+      setError(fallo.message);
     }
   };
   if (cargando) {
@@ -67,6 +63,8 @@ const DetalleCliente = () => {
       <p>Rol actual: {role}</p>
 
       {mensaje && <p className = 'mensaje-eliminado'>{mensaje}</p>}
+
+      {error && <p className = 'mensaje-error'>{error}</p>}
 
       <p>
         <strong>ID:</strong> {cliente.id}
