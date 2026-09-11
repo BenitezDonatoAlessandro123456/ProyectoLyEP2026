@@ -22,7 +22,8 @@ const ejecutar = async (peticion, mensajeError) => {
         throw new Error(
             codigo
                 ? `${mensajeError} (código ${codigo})`
-                : `${mensajeError} Revise su conexión.`
+                : `${mensajeError} Revise su conexión.`,
+            { cause: fallo }
         );
 
     }
