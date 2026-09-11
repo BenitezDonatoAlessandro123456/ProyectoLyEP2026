@@ -28,6 +28,35 @@ const ejecutar = async (peticion, mensajeError) => {
     }
 };
 
+const getClientes = async () => {
+
+    const respuesta = await ejecutar(
+        () => axios.get(URL_CLIENTES),
+        "No se pudieron obtener los clientes."
+    );
+
+    return respuesta.data;
+};
+
+const getCliente = async (id) => {
+
+    const respuesta = await ejecutar(
+        () => axios.get(`${URL_CLIENTES}/${id}`),
+        `No se pudo obtener el cliente ${id}.`
+    );
+
+    // La API responde 200 con cuerpo vacío cuando el id no existe,
+    // así que ese caso también se trata como error.
+    if (!respuesta.data) {
+
+        throw new Error(
+            `No se encontró el cliente ${id}.`
+        );
+    }
+
+    return respuesta.data;
+};
+
 const crearCliente = async (cliente) => {
 
     const respuesta = await ejecutar(
@@ -39,5 +68,7 @@ const crearCliente = async (cliente) => {
 };
 
 export default {
+    getClientes,
+    getCliente,
     crearCliente
 };
