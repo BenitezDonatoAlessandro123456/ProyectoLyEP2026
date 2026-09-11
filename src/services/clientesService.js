@@ -67,8 +67,19 @@ const crearCliente = async (cliente) => {
     return respuesta.data;
 };
 
+const eliminarCliente = async (id) => {
+
+    const respuesta = await ejecutar(
+        () => axios.delete(`${URL_CLIENTES}/${id}`),
+        `No se pudo eliminar el cliente ${id}.`
+    );
+
+    return respuesta.data;
+};
+
 export default {
     getClientes,
     getCliente,
-    crearCliente
+    crearCliente,
+    eliminarCliente
 };
