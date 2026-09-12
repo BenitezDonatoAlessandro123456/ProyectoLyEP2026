@@ -1,9 +1,9 @@
 import '../css/detallecliente.css'
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
- 
+
 const DetalleCliente = () => {
- const { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
 
@@ -45,7 +45,7 @@ const DetalleCliente = () => {
       <h1>Ficha del Cliente</h1>
       <p>Rol actual: {role}</p>
 
-      {mensaje && <p className = 'mensaje-eliminado'>{mensaje}</p>}
+      {mensaje && <p className='mensaje-eliminado'>{mensaje}</p>}
 
       <p>
         <strong>ID:</strong> {cliente.id}
@@ -88,12 +88,12 @@ const DetalleCliente = () => {
         <strong>Usuario:</strong> {cliente.username}
       </p>
 
-      <p>
-        <strong>Contraseña:</strong> {cliente.password}
-      </p>
+      {role?.trim() === "Gerencia" && (
+        <p><strong>Contraseña:</strong> {cliente.password}</p>
+      )}
 
       {role?.trim() === "Gerencia" && (
-        <button className='btn-eliminar'onClick={eliminarCliente}>
+        <button className='btn-eliminar' onClick={eliminarCliente}>
           Eliminar Cliente
         </button>
       )}
