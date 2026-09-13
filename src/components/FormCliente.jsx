@@ -68,7 +68,13 @@ const FormCliente = () => {
                     <Form.Control
                         type="text"
                         value={nombre}
-                        onChange={(e) => setNombre(e.target.value)}
+                        onChange={(e) => {
+                            setNombre(e.target.value);
+                            if (errores.nombre) {
+                                const { nombre, ...resto } = errores;
+                                setErrores(resto);
+                            }
+                        }}
                         isInvalid={!!errores.nombre}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -81,7 +87,13 @@ const FormCliente = () => {
                     <Form.Control
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                            if (errores.email) {
+                                const { email, ...resto } = errores;
+                                setErrores(resto);
+                            }
+                        }}
                         isInvalid={!!errores.email}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -94,7 +106,13 @@ const FormCliente = () => {
                     <Form.Control
                         type="text"
                         value={telefono}
-                        onChange={(e) => setTelefono(e.target.value)}
+                        onChange={(e) => {
+                            setTelefono(e.target.value);
+                            if (errores.telefono) {
+                                const { telefono, ...resto } = errores;
+                                setErrores(resto);
+                            }
+                        }}
                         isInvalid={!!errores.telefono}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -107,7 +125,13 @@ const FormCliente = () => {
                     <Form.Control
                         type="text"
                         value={ciudad}
-                        onChange={(e) => setCiudad(e.target.value)}
+                        onChange={(e) => {
+                            setCiudad(e.target.value);
+                            if (errores.ciudad) {
+                                const { ciudad, ...resto } = errores;
+                                setErrores(resto);
+                            }
+                        }}
                         isInvalid={!!errores.ciudad}
                     />
                     <Form.Control.Feedback type="invalid">
