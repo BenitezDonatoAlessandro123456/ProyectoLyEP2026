@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import clientesService from "../services/clientesService";
 
-
 const DetalleCliente = () => {
- const { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
 
@@ -49,6 +48,7 @@ const DetalleCliente = () => {
       setError(fallo.message);
     }
   };
+
   if (cargando) {
     return <h2>Cargando cliente...</h2>;
   }
@@ -62,9 +62,9 @@ const DetalleCliente = () => {
       <h1>Ficha del Cliente</h1>
       <p>Rol actual: {role}</p>
 
-      {mensaje && <p className = 'mensaje-eliminado'>{mensaje}</p>}
+      {mensaje && <p className='mensaje-eliminado'>{mensaje}</p>}
 
-      {error && <p className = 'mensaje-error'>{error}</p>}
+      {error && <p className='mensaje-error'>{error}</p>}
 
       <p>
         <strong>ID:</strong> {cliente.id}
@@ -107,12 +107,8 @@ const DetalleCliente = () => {
         <strong>Usuario:</strong> {cliente.username}
       </p>
 
-      <p>
-        <strong>Contraseña:</strong> {cliente.password}
-      </p>
-
       {role?.trim() === "Gerencia" && (
-        <button className='btn-eliminar'onClick={eliminarCliente}>
+        <button className='btn-eliminar' onClick={eliminarCliente}>
           Eliminar Cliente
         </button>
       )}
