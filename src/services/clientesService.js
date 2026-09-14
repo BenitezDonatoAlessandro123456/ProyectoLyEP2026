@@ -58,10 +58,23 @@ const getCliente = async (id) => {
     return respuesta.data;
 };
 
-const crearCliente = async (cliente) => {
+const crearCliente = async (datosFormulario) => {
+    const nuevoCliente = {
+        email: datosFormulario.email,
+        username: datosFormulario.nombre ? datosFormulario.nombre.toLowerCase().replace(/\s/g, "") : "",
+        password: "1234",
+        name: {
+            firstname: datosFormulario.nombre || "",
+            lastname: "-"
+        },
+        address: {
+            city: datosFormulario.ciudad || ""
+        },
+        phone: datosFormulario.telefono || ""
+    };
 
     const respuesta = await ejecutar(
-        () => axios.post(URL_CLIENTES, cliente),
+        () => axios.post(URL_CLIENTES, nuevoCliente),
         "No se pudo crear el cliente."
     );
 
@@ -69,7 +82,6 @@ const crearCliente = async (cliente) => {
 };
 
 const eliminarCliente = async (id) => {
-
     const respuesta = await ejecutar(
         () => axios.delete(`${URL_CLIENTES}/${id}`),
         `No se pudo eliminar el cliente ${id}.`
