@@ -1,12 +1,14 @@
 import '../css/detallecliente.css'
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import useAutorizaciones from '../hooks/useAutorizaciones';
 import clientesService from "../services/clientesService";
 
 const DetalleCliente = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const role = localStorage.getItem("role");
+  const { admin } = useAutorizaciones();
+  const role = admin?.sector;
 
   const [cliente, setCliente] = useState(null);
   const [mensaje, setMensaje] = useState("");
@@ -33,6 +35,10 @@ const DetalleCliente = () => {
   }, [id]);
 
   const eliminarCliente = async () => {
+    if (!window.confirm('¿Está seguro de que desea eliminar este cliente?')) {
+      return;
+    }
+
     setMensaje("");
     setError("");
 
@@ -99,12 +105,6 @@ const DetalleCliente = () => {
 
       <p>
         <strong>Ciudad:</strong> {cliente.address.city}
-      </p>
-
-      <h2>Credenciales</h2>
-
-      <p>
-        <strong>Usuario:</strong> {cliente.username}
       </p>
 
       {role?.trim() === "Gerencia" && (
