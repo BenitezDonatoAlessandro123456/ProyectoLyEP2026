@@ -18,11 +18,15 @@ const ejecutar = async (peticion, mensajeError) => {
     } catch (fallo) {
 
         const codigo = fallo.response?.status;
+        const motivo = fallo.response?.data?.error ?? fallo.response?.data?.message;
+        const detalle = typeof motivo === "string" ? motivo : null;
 
         throw new Error(
-            codigo
-                ? `${mensajeError} (código ${codigo})`
-                : `${mensajeError} Revise su conexión.`,
+            detalle
+                ? `${mensajeError} ${detalle}`
+                : codigo
+                    ? `${mensajeError} (código ${codigo})`
+                    : `${mensajeError} Revise su conexión.`,
             { cause: fallo }
         );
 
