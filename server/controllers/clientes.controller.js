@@ -39,7 +39,7 @@ export const actualizarCliente = async (req, res, next) => {
         const clienteActualizado = await Cliente.findOneAndUpdate(
             { id: Number(req.params.id) },
             req.body,
-            { new: true, runValidators: true }
+            { returnDocument: 'after', runValidators: true }
         );
         if (!clienteActualizado) {
             const error = new Error(`No se encontró el cliente ${req.params.id} para actualizar.`);

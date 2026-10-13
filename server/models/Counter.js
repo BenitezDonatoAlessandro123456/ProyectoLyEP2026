@@ -12,16 +12,12 @@ const counterSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-/**
- * Devuelve el siguiente número de la secuencia indicada.
- * findByIdAndUpdate con $inc es atómico: dos altas simultáneas
- * nunca obtienen el mismo id.
- */
+ 
 counterSchema.statics.nextSeq = async function nextSeq(nombre) {
   const contador = await this.findByIdAndUpdate(
     nombre,
     { $inc: { seq: 1 } },
-    { new: true, upsert: true }
+    { returnDocument: 'after', upsert: true }
   );
   return contador.seq;
 };
