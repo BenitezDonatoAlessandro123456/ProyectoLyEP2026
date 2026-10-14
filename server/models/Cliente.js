@@ -64,15 +64,11 @@ const clienteSchema = new mongoose.Schema(
 );
 
 // Asigna el id numérico auto-incremental al crear un cliente nuevo.
-clienteSchema.pre('validate', async function preValidate(next) {
-  try {
-    if (this.isNew && this.id == null) {
-      this.id = await Counter.nextSeq('cliente');
-    }
-    next();
-  } catch (error) {
-    next(error);
+clienteSchema.pre('validate', async function preValidate() {
+  if (this.isNew && this.id == null) {
+    this.id = await Counter.nextSeq('cliente');
   }
+
 });
 
 // La respuesta nunca expone _id ni password.
