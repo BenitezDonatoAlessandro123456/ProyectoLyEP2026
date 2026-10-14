@@ -3,7 +3,7 @@ import axios from "axios";
 // Única fuente de verdad para la URL de la API de clientes.
 // Ningún componente debe volver a escribir esta URL a mano:
 // todo acceso a clientes pasa por las funciones de este service.
-const URL_CLIENTES = "http://localhost:3001/api/clientes";
+const URL_CLIENTES = import.meta.env.VITE_API_URL || "http://localhost:3001/api/clientes";
 
 // Manejo de errores unificado.
 // axios rechaza la promesa tanto si la respuesta no es OK (4xx / 5xx)
@@ -18,11 +18,15 @@ const ejecutar = async (peticion, mensajeError) => {
     } catch (fallo) {
 
         const codigo = fallo.response?.status;
+        const motivo = fallo.response?.data?.error ?? fallo.response?.data?.message;
+        const detalle = typeof motivo === "string" ? motivo : null;
 
         throw new Error(
-            codigo
-                ? `${mensajeError} (código ${codigo})`
-                : `${mensajeError} Revise su conexión.`,
+            detalle
+                ? `${mensajeError} ${detalle}`
+                : codigo
+                    ? `${mensajeError} (código ${codigo})`
+                    : `${mensajeError} Revise su conexión.`,
             { cause: fallo }
         );
 
