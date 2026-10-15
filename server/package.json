@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "node --watch index.js",
     "start": "node index.js",
-    "seed": "node seeds/seedClientes.js"
+    "seed": "node seeds/seedClientes.js",
+    "test": "vitest run"
   },
   "engines": {
     "node": ">=18.11"
@@ -17,5 +18,10 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
     "mongoose": "^9.11.2"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^11.3.0",
+    "supertest": "^7.3.1",
+    "vitest": "^5.0.4"
   }
 }
