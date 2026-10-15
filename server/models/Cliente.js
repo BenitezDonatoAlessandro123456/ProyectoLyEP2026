@@ -4,8 +4,8 @@ import Counter from './Counter.js';
 
 const nombreSchema = new mongoose.Schema(
   {
-    firstname: { type: String, default: '' },
-    lastname: { type: String, default: '' },
+    firstname: { type: String, required: [true, 'El nombre es obligatorio'], trim: true },
+    lastname: { type: String, required: [true, 'El apellido es obligatorio'], trim: true },
   },
   { _id: false }
 );
@@ -46,6 +46,7 @@ const clienteSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       lowercase: true,
+      match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'El email no tiene un formato valido'],
     },
     username: { type: String, required: true, trim: true },
     // select: false -> nunca viaja en las consultas ni en las respuestas.
